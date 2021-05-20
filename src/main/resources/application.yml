@@ -1,0 +1,33 @@
+resilience4j:
+  ratelimiter:
+  circuitbreaker:
+    instances:
+      inventoryBreak:
+        registerHealthIndicator: true
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        waitDurationInOpenState: 600
+        slidingWindowType: COUNT_BASED
+  thread-pool-bulkhead:
+    instances:
+      inventoryBulkHead:
+        eventConsumerBufferSize: 10
+        coreThreadPoolSize: 5
+        maxThreadPoolSize: 7
+        queueCapacity: 10
+        keepAliveDuration: 5000
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
